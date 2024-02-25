@@ -2,18 +2,20 @@ import { useState } from "react";
 import reactLogo from "./assets/react.svg";
 import viteLogo from "./vite.svg";
 import "./App.css";
-import Background from "../public/illustration/3d-music-art.png";
+import Background from "/illustration/3d-music-art.png";
 import { delay, motion as m } from "framer-motion";
+import { useNavigate } from "react-router-dom";
 
 function App() {
-  const [count, setCount] = useState(0);
+  const navigate = useNavigate();
+
   return (
     <div className="flex w-screen h-screen justify-center items-center p-5">
       <div className="w-1/2 flex flex-col h-full rounded-lg justify-between p-3">
         {/* Title Header */}
-        <div>
+        <m.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
           <h1 className="title-font text-4xl">Snekkk</h1>
-        </div>
+        </m.div>
         {/* Title Header */}
 
         {/* Content / Form */}
@@ -45,7 +47,12 @@ function App() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.9 }}
           >
-            <button className="p-3 rounded-full border w-full hover:text-white transition-all hover:bg-[#672bf3]">
+            <button
+              className="p-3 rounded-full border w-full hover:text-white transition-all hover:bg-[#672bf3]"
+              onClick={() => {
+                navigate("/browse");
+              }}
+            >
               Hop on to the player
             </button>
           </m.div>
@@ -67,14 +74,16 @@ function App() {
         </div>
         {/* Footer */}
       </div>
-      <m.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1.4, duration: 0.5 }}
-        className="w-1/2 flex h-full overflow-hidden rounded-lg"
-      >
-        <img src={Background} alt="" className="object-cover" />
-      </m.div>
+      <div className="w-1/2 flex h-full overflow-hidden rounded-lg">
+        <m.img
+          initial={{ width: 0 }}
+          animate={{ width: "100%" }}
+          transition={{ delay: 1.8, duration: 0.5 }}
+          src={Background}
+          alt=""
+          className="object-cover"
+        />
+      </div>
     </div>
   );
 }
