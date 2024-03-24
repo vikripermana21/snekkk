@@ -1,17 +1,5 @@
 import axios from "axios";
-
-type IAuth = {
-  access_token: string;
-  expires_in: number;
-  refresh_token: string;
-  token_type: string;
-  scope: string;
-};
-
-const localStorageItems = localStorage.getItem("token") || "{}";
-const token: IAuth = JSON.parse(localStorageItems);
-
-console.log(token);
+import axiosInstance from "../config/axiosInstance";
 
 export const getToken = (payload: string) => {
   return axios.post(`https://accounts.spotify.com/api/token`, payload, {
@@ -31,21 +19,14 @@ export const getToken = (payload: string) => {
 };
 
 export const getSearch = (q: string, type: string) => {
-  return axios.get(`https://api.spotify.com/v1/search`, {
+  return axiosInstance.get(`/search`, {
     params: {
       q,
       type,
-    },
-    headers: {
-      Authorization: `Bearer ${token?.access_token}`,
     },
   });
 };
 
 export const getUserPlaylist = () => {
-  return axios.get(`https://api.spotify.com/v1/me/playlists`, {
-    headers: {
-      Authorization: `Bearer ${token?.access_token}`,
-    },
-  });
+  return axiosInstance.get(`/me/playlists`);
 };

@@ -64,6 +64,7 @@ const Layout = ({ children }: { children: ReactNode }) => {
             <>
               {playlists.items.map((item: any, index: number) => (
                 <m.div
+                  key={index}
                   initial={{ x: 100, opacity: 0 }}
                   animate={{ x: 0, opacity: 1 }}
                   transition={{
@@ -107,8 +108,9 @@ const Layout = ({ children }: { children: ReactNode }) => {
           {searchData || isLoadingSearch ? (
             <>
               <div className="flex gap-2 mt-4">
-                {typeSearch.map((item) => (
+                {typeSearch.map((item, index) => (
                   <div
+                    key={index}
                     className={`py-1 px-3 rounded-full ${
                       selectedType === item ? "bg-[#6023EB]" : "bg-slate-500"
                     }  text-white cursor-pointer`}
@@ -124,8 +126,8 @@ const Layout = ({ children }: { children: ReactNode }) => {
                 <div className="w-full h-full py-5">
                   <div className="w-full grid grid-cols-4">
                     {searchData?.[`${selectedType}s`]?.items?.map(
-                      (item: any) => (
-                        <div>{item?.name}</div>
+                      (item: any, index: number) => (
+                        <div key={index}>{item?.name}</div>
                       )
                     )}
                   </div>
