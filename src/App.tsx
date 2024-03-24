@@ -46,14 +46,23 @@ function App() {
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.9 }}
+            className="flex flex-col gap-3"
           >
             <button
               className="p-3 rounded-full border w-full hover:text-white transition-all hover:bg-[#672bf3]"
               onClick={() => {
-                navigate("/browse");
+                navigate("/explore");
               }}
             >
               Hop on to the player
+            </button>
+            <button
+              className="p-3 rounded-full border w-full hover:text-white transition-all hover:bg-[#672bf3]"
+              onClick={() => {
+                navigate("/authorize");
+              }}
+            >
+              Authorize Spotify
             </button>
           </m.div>
         </div>

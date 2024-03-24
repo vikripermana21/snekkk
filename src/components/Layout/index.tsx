@@ -1,38 +1,17 @@
-import { ReactNode, useEffect } from "react";
+import { ReactNode, useEffect, useMemo, useState } from "react";
 import { FormProvider, useForm, useWatch } from "react-hook-form";
-import { Link, useLocation } from "react-router-dom";
-import Breadcrumbs from "../Breadcrumbs";
+import { useLocation } from "react-router-dom";
 import Input from "../Input";
-import { RiSearch2Line } from "react-icons/ri";
+import { RiAddLine, RiSearch2Line } from "react-icons/ri";
 import { useQuery } from "@tanstack/react-query";
-import { getExplore } from "../../services";
-
-type menuInterface = {
-  title: string;
-  children: {
-    name: string;
-    path: string;
-  }[];
-};
-
-const menu = [
-  {
-    title: "Library",
-    children: [
-      {
-        name: "Browse",
-        path: "/browse",
-      },
-      {
-        name: "Songs",
-        path: "/songs",
-      },
-    ],
-  },
-];
+import { getSearch, getUserPlaylist } from "../../services";
+import { TbLoaderQuarter } from "react-icons/tb";
+import Spinner from "../Spinner";
+import { motion as m } from "framer-motion";
+import { toNumber } from "lodash";
 
 const Layout = ({ children }: { children: ReactNode }) => {
-  const location = useLocation();
+  const [selectedType, setSelectedType] = useState("artist");
   const methods = useForm({
     defaultValues: {
       search: "",
@@ -44,49 +23,78 @@ const Layout = ({ children }: { children: ReactNode }) => {
     name: "search",
   });
 
-  const { data } = useQuery({
-    queryKey: ["get-explore", search],
+  const { data: searchData, isLoading: isLoadingSearch } = useQuery({
+    enabled: !!search,
+    queryKey: ["get-explore", search, selectedType],
     queryFn: async () => {
-      const res = await getExplore({ q: search });
-      console.log(res);
+      const res = await getSearch(search, selectedType);
       return res?.data;
     },
   });
 
+  const { data: playlists, isLoading } = useQuery({
+    queryKey: ["get-user-playlist"],
+    queryFn: async () => {
+      const res = await getUserPlaylist();
+      return res?.data;
+    },
+  });
+
+  const typeSearch = useMemo(() => {
+    return ["artist", "album", "playlist", "track", "show"];
+  }, []);
+
   useEffect(() => {
-    if (data) {
-      console.log(data);
+    if (searchData) {
+      console.log(searchData);
     }
-  }, [data]);
+  }, [searchData]);
 
   return (
     <div className="w-screen h-screen flex">
-      <div className="flex w-1/4 bg-[#585352] rounded-r-2xl p-10">
-        {menu?.map((item: menuInterface, index: number) => (
-          <div key={index}>
-            <p className="text-white">{item.title}</p>
-            <div className="flex flex-col gap-1 py-4">
-              {item.children?.map((child, index) => (
-                <Link
-                  key={index}
-                  to={child.path}
-                  className={`py-3 px-5 rounded-full text-white hover:bg-[#3c3a3a] hover:text-yellow-200 transition-all ${
-                    location.pathname.includes(child.path) &&
-                    "bg-[#3c3a3a] text-yellow-200"
-                  }`}
+      <div className="flex flex-col w-1/4 bg-white py-10 px-5 gap-2">
+        <div className="flex justify-between items-center">
+          <p className="text-xl font-semibold">Your Playlists</p>
+          <RiAddLine className="hover:scale-125 transition-all cursor-pointer" />
+        </div>
+        <div className="flex flex-col overflow-auto h-full">
+          {isLoading ? (
+            <Spinner />
+          ) : (
+            <>
+              {playlists.items.map((item: any, index: number) => (
+                <m.div
+                  initial={{ x: 100, opacity: 0 }}
+                  animate={{ x: 0, opacity: 1 }}
+                  transition={{
+                    ease: "easeInOut",
+                    delay: toNumber(`0.${index}`),
+                  }}
+                  className="p-3 rounded-lg bg-white hover:bg-[#6023EB] hover:text-white text-slate-700 flex gap-3 transition-all cursor-pointer"
                 >
-                  {child?.name}
-                </Link>
+                  <div className="rounded-sm overflow-hidden min-h-12 min-w-12 max-h-12 max-w-12">
+                    <img
+                      src={item?.images?.[0]?.url}
+                      alt=""
+                      className="object-cover"
+                    />
+                  </div>
+                  <div className="flex flex-col truncate">
+                    <p className="truncate text-md">{item?.name}</p>
+                    <p className="truncate text-xs">
+                      {item?.description || "..."}
+                    </p>
+                  </div>
+                </m.div>
               ))}
-            </div>
-          </div>
-        ))}
+            </>
+          )}
+        </div>
       </div>
       <div className="flex flex-1 p-5">
         <div className="flex flex-col w-full h-full">
           <FormProvider {...methods}>
             <div className="flex items-center gap-3">
-              <Breadcrumbs />
               <Input
                 icon={<RiSearch2Line />}
                 iconPosition="right"
@@ -96,7 +104,37 @@ const Layout = ({ children }: { children: ReactNode }) => {
               />
             </div>
           </FormProvider>
-          {children}
+          {searchData || isLoadingSearch ? (
+            <>
+              <div className="flex gap-2 mt-4">
+                {typeSearch.map((item) => (
+                  <div
+                    className={`py-1 px-3 rounded-full ${
+                      selectedType === item ? "bg-[#6023EB]" : "bg-slate-500"
+                    }  text-white cursor-pointer`}
+                    onClick={() => setSelectedType(item)}
+                  >
+                    {item}
+                  </div>
+                ))}
+              </div>
+              {isLoadingSearch ? (
+                <Spinner />
+              ) : (
+                <div className="w-full h-full py-5">
+                  <div className="w-full grid grid-cols-4">
+                    {searchData?.[`${selectedType}s`]?.items?.map(
+                      (item: any) => (
+                        <div>{item?.name}</div>
+                      )
+                    )}
+                  </div>
+                </div>
+              )}
+            </>
+          ) : (
+            <>{children}</>
+          )}
         </div>
       </div>
     </div>

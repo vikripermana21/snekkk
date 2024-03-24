@@ -3,8 +3,10 @@ import ReactDOM from "react-dom/client";
 import App from "./App.tsx";
 import "./index.css";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
-import Player from "./pages/Player/index.tsx";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import Explore from "./pages/Explore/index.tsx";
+import CallbackOauth from "./components/OAuthSpotify/callback.tsx";
+import Authorize from "./components/OAuthSpotify/authorize.tsx";
 
 const router = createBrowserRouter([
   {
@@ -12,8 +14,16 @@ const router = createBrowserRouter([
     element: <App />,
   },
   {
-    path: "/browse",
-    element: <Player />,
+    path: "/explore",
+    element: <Explore />,
+  },
+  {
+    path: "/authorize",
+    element: <Authorize />,
+  },
+  {
+    path: "/callback",
+    element: <CallbackOauth />,
   },
 ]);
 
