@@ -40,7 +40,10 @@ axiosInstance.interceptors.response.use(
   },
   (error) => {
     // Handle response errors here
-    console.log(error);
+    if (error.response.status === 401) {
+      localStorage.clear();
+      window.location.href = "/";
+    }
 
     return Promise.reject(error);
   }

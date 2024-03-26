@@ -7,6 +7,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import Explore from "./pages/Explore/index.tsx";
 import CallbackOauth from "./components/OAuthSpotify/callback.tsx";
 import Authorize from "./components/OAuthSpotify/authorize.tsx";
+import { AnimatePresence } from "framer-motion";
 
 const router = createBrowserRouter([
   {
