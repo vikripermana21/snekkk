@@ -12,7 +12,7 @@ const CallbackOauth = () => {
     if (!!params.get("code")) {
       getSpotifyToken.mutate({
         code: params.get("code"),
-        redirect_uri: "http://localhost:5173/callback",
+        redirect_uri: `${import.meta.env.VITE_WEB_APP}/callback`,
         grant_type: "authorization_code",
       });
     }
