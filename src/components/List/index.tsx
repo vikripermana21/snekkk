@@ -52,12 +52,15 @@ const List = ({ item, type = "track", isLiked = false, refetch }: any) => {
       <AnimatePresence mode="wait">
         {isOpen.open && (
           <Modal
+            type="warning"
             close={() => setIsOpen({ open: false, type: "" })}
             submitButtonAction={submit}
             isLoading={
               saveTrackMutation.isPending || unsaveTrackMutation.isPending
             }
-          />
+          >
+            <p>This will affect your actual spotify account</p>
+          </Modal>
         )}
       </AnimatePresence>
       <div className="w-full group flex p-3 gap-3 hover:bg-[#6023EB] hover:text-white transition-all rounded-md justify-between items-center truncate cursor-pointer">

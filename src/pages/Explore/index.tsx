@@ -17,6 +17,7 @@ import {
   GiFlameSpin,
   GiFluffyTrefoil,
 } from "react-icons/gi";
+import toast from "react-hot-toast";
 
 const Explore = () => {
   const [trackIds, setTrackIds] = useState("");
@@ -63,9 +64,6 @@ const Explore = () => {
     if (recentlyList) {
       const ids = recentlyList?.items?.map((item: any) => item?.track?.id);
       setTrackIds(ids.join(","));
-      console.log("recent", recentlyList);
-      console.log("track", topTrack);
-      console.log("artist", topArtist);
     }
   }, [recentlyList, topTrack, topArtist]);
 
