@@ -39,6 +39,18 @@ export const checkUserSavedTracks = (ids: string) => {
   });
 };
 
+export const getRecentlyPlayed = () => {
+  return axiosInstance.get(`me/player/recently-played`);
+};
+
+export const getTopUser = (type: string) => {
+  return axiosInstance.get(`me/top/${type}`, {
+    params: {
+      limit: 5,
+    },
+  });
+};
+
 export const saveTrack = (ids: string) => {
   return axiosInstance.put("/me/tracks", { ids: ids });
 };

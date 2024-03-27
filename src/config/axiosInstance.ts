@@ -1,4 +1,5 @@
 import axios from "axios";
+import toast from "react-hot-toast";
 
 const axiosInstance = axios.create({
   baseURL: "https://api.spotify.com/v1",
@@ -41,9 +42,11 @@ axiosInstance.interceptors.response.use(
   (error) => {
     // Handle response errors here
     if (error.response.status === 401) {
+      toast.error("Unauthorized");
       localStorage.clear();
       window.location.href = "/";
     }
+    toast.error("This didn't work");
 
     return Promise.reject(error);
   }

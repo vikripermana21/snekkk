@@ -1,4 +1,4 @@
-import { ReactNode, useEffect, useMemo, useState } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import { FormProvider, useForm, useWatch } from "react-hook-form";
 import Input from "../Input";
 import { RiAddLine, RiSearch2Line } from "react-icons/ri";
@@ -11,9 +11,6 @@ import {
 import Spinner from "../Spinner";
 import { AnimatePresence, motion as m } from "framer-motion";
 import { startCase, toNumber, toString } from "lodash";
-import { Link } from "react-router-dom";
-import { VscHeart } from "react-icons/vsc";
-import { MdExplicit } from "react-icons/md";
 import List from "../List";
 
 const Layout = ({ children }: { children: ReactNode }) => {
@@ -137,7 +134,9 @@ const Layout = ({ children }: { children: ReactNode }) => {
             {search ? (
               <AnimatePresence mode="wait">
                 {isLoadingSearch || isLoadingCheckLikedSongs || isFetching ? (
-                  <Spinner />
+                  <div className="flex w-full h-full items-center justify-center">
+                    <Spinner />
+                  </div>
                 ) : (
                   <m.div
                     key={"content"}

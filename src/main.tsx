@@ -7,7 +7,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import Explore from "./pages/Explore/index.tsx";
 import CallbackOauth from "./components/OAuthSpotify/callback.tsx";
 import Authorize from "./components/OAuthSpotify/authorize.tsx";
-import { AnimatePresence } from "framer-motion";
+import { Toaster } from "react-hot-toast";
 
 const router = createBrowserRouter([
   {
@@ -35,6 +35,7 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
     <Suspense fallback={<p>Loading...</p>}>
       <QueryClientProvider client={queryClient}>
         <RouterProvider router={router} />
+        <Toaster position="top-right" />
       </QueryClientProvider>
     </Suspense>
   </React.StrictMode>

@@ -8,6 +8,7 @@ import { IoClose, IoWarning } from "react-icons/io5";
 import Modal from "../Modal";
 import { useMutation } from "@tanstack/react-query";
 import { removeTrack, saveTrack } from "../../services";
+import toast from "react-hot-toast";
 
 const List = ({ item, type = "track", isLiked = false, refetch }: any) => {
   const [isOpen, setIsOpen] = useState({ open: false, type: "" });
@@ -20,6 +21,7 @@ const List = ({ item, type = "track", isLiked = false, refetch }: any) => {
     },
     onSuccess: (res: any) => {
       setIsOpen({ open: false, type: "" });
+      toast.success("The song was successfully added to your liked list");
       refetch();
     },
   });
@@ -32,6 +34,7 @@ const List = ({ item, type = "track", isLiked = false, refetch }: any) => {
     },
     onSuccess: (res: any) => {
       setIsOpen({ open: false, type: "" });
+      toast.success("The song was successfully removed from your liked list");
       refetch();
     },
   });

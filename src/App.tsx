@@ -51,14 +51,6 @@ function App() {
             <button
               className="p-3 rounded-full border w-full hover:text-white transition-all hover:bg-[#672bf3]"
               onClick={() => {
-                navigate("/explore");
-              }}
-            >
-              Hop on to the player
-            </button>
-            <button
-              className="p-3 rounded-full border w-full hover:text-white transition-all hover:bg-[#672bf3]"
-              onClick={() => {
                 navigate("/authorize");
               }}
             >
