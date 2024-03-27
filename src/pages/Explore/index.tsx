@@ -10,14 +10,7 @@ import {
 import { motion as m } from "framer-motion";
 import { toNumber, toString } from "lodash";
 import Spinner from "../../components/Spinner";
-import { MdOutlineWaves } from "react-icons/md";
-import {
-  GiAbstract082,
-  GiAbstract116,
-  GiFlameSpin,
-  GiFluffyTrefoil,
-} from "react-icons/gi";
-import toast from "react-hot-toast";
+import { GiFlameSpin, GiFluffyTrefoil } from "react-icons/gi";
 
 const Explore = () => {
   const [trackIds, setTrackIds] = useState("");
@@ -30,7 +23,7 @@ const Explore = () => {
     },
   });
 
-  const { data: topTrack, isLoading: isLoadingTopTrack } = useQuery({
+  const { data: topTrack } = useQuery({
     queryKey: ["get-top-track"],
     queryFn: async () => {
       const res = await getTopUser("tracks");
@@ -38,7 +31,7 @@ const Explore = () => {
     },
   });
 
-  const { data: topArtist, isLoading: isLoadingTopArtist } = useQuery({
+  const { data: topArtist } = useQuery({
     queryKey: ["get-top-artist"],
     queryFn: async () => {
       const res = await getTopUser("artists");

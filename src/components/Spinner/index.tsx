@@ -1,4 +1,3 @@
-import React from "react";
 import { TbLoaderQuarter } from "react-icons/tb";
 import { motion as m } from "framer-motion";
 

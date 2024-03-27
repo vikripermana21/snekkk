@@ -12,13 +12,9 @@ import Spinner from "../Spinner";
 import { AnimatePresence, motion as m } from "framer-motion";
 import { startCase, toNumber, toString } from "lodash";
 import List from "../List";
-import toast from "react-hot-toast";
 import Modal from "../Modal";
 
 const Layout = ({ children }: { children: ReactNode }) => {
-  const [selectedType, setSelectedType] = useState(
-    "artist,album,track,playlist"
-  );
   const [isOpen, setIsOpen] = useState(false);
   const [trackIds, setTrackIds] = useState("");
   const methods = useForm({
@@ -34,9 +30,9 @@ const Layout = ({ children }: { children: ReactNode }) => {
 
   const { data: searchData, isLoading: isLoadingSearch } = useQuery({
     enabled: !!search,
-    queryKey: ["get-explore", search, selectedType],
+    queryKey: ["get-explore", search],
     queryFn: async () => {
-      const res = await getSearch(search, selectedType);
+      const res = await getSearch(search, "artist,album,track,playlist");
       return res?.data;
     },
   });
@@ -71,7 +67,6 @@ const Layout = ({ children }: { children: ReactNode }) => {
     if (searchData) {
       const ids = searchData?.tracks?.items.map((item: any) => item.id);
       setTrackIds(ids.join(","));
-      console.log("searchData", searchData);
     }
   }, [searchData]);
 

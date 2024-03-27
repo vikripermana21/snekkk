@@ -1,9 +1,6 @@
-import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "./vite.svg";
 import "./App.css";
 import Background from "/illustration/3d-music-art.png";
-import { delay, motion as m } from "framer-motion";
+import { motion as m } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 
 function App() {
