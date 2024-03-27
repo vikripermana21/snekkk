@@ -2,9 +2,8 @@ import { MdExplicit } from "react-icons/md";
 import { VscHeart, VscHeartFilled } from "react-icons/vsc";
 import { Link } from "react-router-dom";
 import { millisToMinutesAndSeconds } from "../../helper";
-import { AnimatePresence, motion as m } from "framer-motion";
+import { AnimatePresence } from "framer-motion";
 import { useState } from "react";
-import { IoClose, IoWarning } from "react-icons/io5";
 import Modal from "../Modal";
 import { useMutation } from "@tanstack/react-query";
 import { removeTrack, saveTrack } from "../../services";
@@ -19,7 +18,7 @@ const List = ({ item, type = "track", isLiked = false, refetch }: any) => {
       const res = await saveTrack(id.split(","));
       return res;
     },
-    onSuccess: (res: any) => {
+    onSuccess: () => {
       setIsOpen({ open: false, type: "" });
       toast.success("The song was successfully added to your liked list");
       refetch();
@@ -32,7 +31,7 @@ const List = ({ item, type = "track", isLiked = false, refetch }: any) => {
       const res = await removeTrack(id.split(","));
       return res;
     },
-    onSuccess: (res: any) => {
+    onSuccess: () => {
       setIsOpen({ open: false, type: "" });
       toast.success("The song was successfully removed from your liked list");
       refetch();

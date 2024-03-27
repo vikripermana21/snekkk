@@ -1,15 +1,12 @@
 import { useMutation } from "@tanstack/react-query";
-import queryString from "query-string";
-import React, { useEffect } from "react";
-import { RiCircleFill, RiCircleLine } from "react-icons/ri";
-import { useNavigate, useParams, useSearchParams } from "react-router-dom";
+import { useEffect } from "react";
+import { RiCircleLine } from "react-icons/ri";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { getToken } from "../../services";
-import { useAuth } from "../../stores";
 
 const CallbackOauth = () => {
-  const [params, setParams] = useSearchParams();
+  const [params] = useSearchParams();
   const navigate = useNavigate();
-  const setToken = useAuth((state) => state.setToken);
 
   useEffect(() => {
     if (!!params.get("code")) {

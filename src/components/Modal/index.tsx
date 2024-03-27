@@ -1,4 +1,3 @@
-import React from "react";
 import { motion as m } from "framer-motion";
 import { IoClose } from "react-icons/io5";
 import Spinner from "../Spinner";

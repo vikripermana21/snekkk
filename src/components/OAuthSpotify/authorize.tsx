@@ -1,14 +1,11 @@
 import queryString from "query-string";
-import React, { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 
 const Authorize = () => {
   const client_id = import.meta.env.VITE_SPOTIFY_CLIENT_ID;
   const redirect_uri = `http://localhost:5173/callback`;
   const scope =
     "user-read-private user-read-email user-library-read playlist-read-private playlist-read-collaborative playlist-modify-private playlist-modify-public user-follow-modify user-follow-read user-top-read user-read-recently-played user-library-modify";
-
-  const navigate = useNavigate();
 
   const config = queryString.stringify({
     response_type: "code",
